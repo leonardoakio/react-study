@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Carrega o React, React Dom (para sites) e Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Utilizar JS novo em antigo para adaptar a browsers antigos -->
+    <!-- Converte scripts JSXS(não consegue ser lido no browser) em arquivo JS -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="app">App</div>
+    
+    <!-- type Babel para poder converter para JS o arquivo gerado JSX -->
+    <script type="text/babel">
+    
+    
+      // Cria um componente button para ser utilizado no <App />
+      // Utilizando funcionalidade reativa para adicionar +1 a cada clique no return 
+        function Button() {
+            const [total, setTotal] = React.useState(0);
+            return (
+                <button onClick={() => setTotal(total + 1)}>
+                Adicionar {total}
+                </button>
+            );
+        }   
+
+        const MainNav = () => {
+            return <nav>
+                <ul>
+                    <li><a href="#">Link 1</a></li>
+                    <li><a href="#">Link 2</a></li>    
+                </ul>
+                <Button />
+            </nav>
+        }
+
+        const Produtos = () => {
+            const produto1 = "Camisa";
+            const produto2 = "Short";
+
+            function handleClick(event) {
+                console.log('Comprou:' + event.target.innerText);
+            }
+
+            return <div>
+                <button onClick={handleClick}>{produto1} - R$ {Math.floor(Math.random() * 100)}</button>
+                <button onClick={handleClick}>{produto2} - R$ {Math.floor(Math.random() * 100)}</button>
+            </div>
+        }
+
+        // Função que escreve o Total que será acrescido de 1 toda vez que clicar no botão "Comprar"
+        // O Preço será reativo também multiplicando o total x 250
+        const Comprar = () => {
+            const [count, setCount] = React.useState(0);
+
+            return <div>
+                <button onClick={() => setCount(count + 1)}>Comprar</button>
+                <p>Total: {count}</p>
+                <p>Preço: {count * 250}</p>
+            </div>
+        }
+        
+        // Está executando todos os componentes 
+        function App() {
+            return <div>
+                <MainNav /> 
+                <Produtos />
+                <Comprar />
+            </div>;
+        }
+
+    /* 
+        function App() {
+            return <div>
+                <h1>Aplicativo React</h1>
+                <Button />  
+            </div>;
+        }
+    
+    
+    Sem o JSXS é como se estivesse fazendo:
+
+        function App() {
+            return ("div", {
+                children: [
+                    (
+                        "h1", {
+                            children: "Aplicativo React"
+                        }
+                    ), 
+                        jsx(Button, {}
+                    )
+                ]
+            });
+        }
+
+        https://babeljs.io/repl
+    */
+      
+      // Renderiza o componente App no elemento que tiver id = app
+      ReactDOM.render(<App />, document.getElementById('app'));
+    </script>    
+</body>
+</html>
